@@ -130,7 +130,7 @@ Topics:
         <p class="work-title">SAPO: Single-Rollout Autoregressive Policy Optimization for Agentic Reinforcement Learning</p>
         <p class="work-authors"><b>Dayang Liang</b>, Lang Feng, Bo An, Yunlong Liu<sup>&dagger;</sup></p>
         <p class="work-meta"><b>arXiv Preprint 2026</b> &nbsp; <a href="https://arxiv.org/abs/2608.19842">Paper</a>&nbsp; <a href="https://github.com/dy-liang/SAPO">Code</a></p>
-        <p class="work-desc">We show that, using only a single rollout with no separate critic model, our Single-rollout Autoregressive Policy Optimization (SAPO) can stably learn advantage functions and policies, and gain substantial policy improvements. SAPO is a low-memory and compute-efficient training paradigm where the policy and value functions share a single autoregressive backbone. SAPO exploits the autoregressive structure of LLMs to produce policy and value predictions at distinct causal boundaries with shared parameters, while independently optimizing the PPO objectives and auxiliary on-policy SARSA objectives. </p>
+        <p class="work-desc">We show that, using only a single rollout without separate critic model, our Single-rollout Autoregressive Policy Optimization (SAPO) can stably learn advantage functions and policies, and gain substantial policy improvements. SAPO is a low-memory and compute-efficient training paradigm where the policy and value functions share a single autoregressive backbone. SAPO autoregressively generates policy and value predictions at distinct causal boundaries, then independently optimizing the PPO and SARSA objectives. </p>
       </div>
     </div>
 
