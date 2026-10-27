@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f0e8">
+  <meta name="description" content="SAPO is a single-rollout, memory-efficient PPO-style framework for agentic reinforcement learning.">
+  <meta property="og:title" content="SAPO — Single-Rollout Autoregressive Policy Optimization">
+  <meta property="og:description" content="PPO-level performance with one rollout, one causal language model, and no separate critic.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dy-liang.github.io/sapo/">
+  <meta property="og:image" content="https://dy-liang.github.io/sapo/assets/sapo-framework.png">
+  <title>SAPO — Single-Rollout Autoregressive Policy Optimization</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%23ed5b3a%22/><text x=%2250%22 y=%2267%22 font-size=%2258%22 text-anchor=%22middle%22 fill=%22white%22 font-family=%22Arial%22 font-weight=%22700%22>S</text></svg>">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" aria-label="Primary navigation">
+    <a class="brand" href="#top" aria-label="SAPO home">
+      <span class="brand-mark">S</span>
+      <span>SAPO</span>
+    </a>
+    <nav>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#efficiency">Efficiency</a>
+      <a href="#citation">Citation</a>
+    </nav>
+    <a class="header-link" href="https://github.com/dy-liang/SAPO" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero section" id="top">
+      <div class="hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span>Agentic RL</span><span>Single rollout</span><span>Shared policy &amp; value</span></p>
+          <h1><span class="accent">SAPO</span>: Single-Rollout Autoregressive Policy Optimization</h1>
+          <p class="subtitle">for Agentic Reinforcement Learning</p>
+          <p class="lede">A compute- and memory-efficient PPO-style framework that learns policy, state value, and action value inside a <strong>single causal language model</strong>—without a separate critic or same-task rollout groups.</p>
+
+          <div class="authors" aria-label="Authors">
+            <a href="https://dy-liang.github.io/">Dayang Liang<sup>*</sup></a>
+            <span>·</span>
+            <span>Lang Feng<sup>*</sup></span>
+            <span>·</span>
+            <span>Bo An</span>
+            <span>·</span>
+            <span>Yunlong Liu<sup>†</sup></span>
+          </div>
+          <p class="affiliations">Xiamen University &nbsp;·&nbsp; Nanyang Technological University<br><small><sup>*</sup> Equal contribution &nbsp;&nbsp; <sup>†</sup> Corresponding author</small></p>
+
+          <div class="actions">
+            <a class="button button-primary" href="https://arxiv.org/abs/2608.19842" target="_blank" rel="noopener">
+              <span class="button-icon">A</span> Paper
+            </a>
+            <a class="button button-secondary" href="https://github.com/dy-liang/SAPO" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .7a11.5 11.5 0 0 0-3.64 22.4c.58.1.79-.25.79-.56v-2.23c-3.22.7-3.9-1.36-3.9-1.36-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.04 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.74-1.55-2.57-.29-5.28-1.28-5.28-5.72 0-1.27.45-2.3 1.19-3.11-.12-.29-.52-1.47.11-3.06 0 0 .97-.31 3.19 1.19a11.1 11.1 0 0 1 5.82 0c2.21-1.5 3.18-1.19 3.18-1.19.63 1.59.23 2.77.11 3.06.74.81 1.19 1.84 1.19 3.11 0 4.45-2.71 5.42-5.29 5.71.42.36.79 1.06.79 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/></svg>
+              Code
+            </a>
+            <button class="button button-ghost" type="button" data-copy-citation>Copy BibTeX</button>
+          </div>
+        </div>
+
+        <aside class="hero-aside reveal" aria-label="Key results">
+          <p class="aside-label">A better efficiency frontier</p>
+          <div class="metric-stack">
+            <article class="metric-card metric-coral">
+              <span class="metric-value">24.8<span>%</span></span>
+              <p>lower average peak GPU memory than PPO</p>
+            </article>
+            <article class="metric-card metric-teal">
+              <span class="metric-value">23.1<span>%</span></span>
+              <p>lower average runtime per iteration than PPO</p>
+            </article>
+            <article class="metric-card metric-ink">
+              <span class="metric-value">98.7<span>%</span></span>
+              <p>ALFWorld success with Qwen3-14B</p>
+            </article>
+          </div>
+          <p class="aside-note">Matched sampling budgets · three random seeds</p>
+        </aside>
+      </div>
+
+      <div class="hero-visual figure-card reveal">
+        <div class="figure-topline"><span>Autoregressive rollout</span><span class="live-dot"><i></i> single model, shared update</span></div>
+        <img src="assets/sapo-rollout.gif" alt="Animated diagram showing SAPO autoregressively generating actions and reading state and action values at causal boundaries" width="1400" height="660">
+      </div>
+    </section>
+
+    <section class="section section-intro reveal" aria-labelledby="idea-heading">
+      <div class="section-kicker">The core idea</div>
+      <div class="intro-grid">
+        <h2 id="idea-heading">Turn language modeling’s causal structure into an actor–critic architecture.</h2>
+        <p>SAPO reads a state value <em>before</em> the response, generates the response action, then reads its action value <em>after</em> the response. These causal-boundary estimates supply turn-level credit assignment while every objective updates the same transformer in one backward pass.</p>
+      </div>
+    </section>
+
+    <section class="section" id="method" aria-labelledby="method-heading">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">01 · Method</p>
+          <h2 id="method-heading">One trajectory. Three learning signals. One model.</h2>
+        </div>
+        <p>SAPO preserves PPO’s explicit value learning while removing the policy-scale critic. An auxiliary on-policy SARSA objective helps the shared representation learn action values.</p>
+      </div>
+
+      <div class="method-steps reveal" aria-label="SAPO training flow">
+        <article><span>01</span><h3>Roll out once</h3><p>Sample one interactive trajectory for each task with the current policy.</p></article>
+        <article><span>02</span><h3>Read causal values</h3><p>Estimate <em>V(s)</em> before an action and <em>Q(s,a)</em> after it using a shared dual-logit readout.</p></article>
+        <article><span>03</span><h3>Assign turn-level credit</h3><p>Compute GAE advantages, λ-return value targets, and on-policy SARSA targets.</p></article>
+        <article><span>04</span><h3>Update jointly</h3><p>Optimize clipped policy, state-value, and action-value losses in a single shared-model update.</p></article>
+      </div>
+
+      <figure class="paper-figure reveal">
+        <img src="assets/sapo-framework.png" alt="SAPO framework showing shared autoregressive policy, state value, and action value learning" width="2548" height="1000" loading="lazy">
+        <figcaption>SAPO uses distinct causal boundaries for policy and value predictions while sharing all model parameters.</figcaption>
+      </figure>
+
+      <div class="equation reveal" aria-label="SAPO objective">
+        <span class="equation-label">Joint objective</span>
+        <p>ℒ<sub>SAPO</sub>(θ) = ℒ<sub>policy</sub> + c<sub>V</sub>ℒ<sub>V</sub> + c<sub>Q</sub>ℒ<sub>Q</sub> − c<sub>H</sub>ℋ(π<sub>θ</sub>)</p>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results" aria-labelledby="results-heading">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">02 · Performance</p>
+          <h2 id="results-heading">PPO-level performance, without PPO-level overhead.</h2>
+        </div>
+        <p>Across ALFWorld and WebShop, SAPO follows stable PPO-like learning dynamics and consistently outperforms GRPO under matched optimization and sampling settings.</p>
+      </div>
+
+      <div class="result-cards reveal">
+        <article class="result-card">
+          <div class="result-model">Qwen2.5 · 1.5B</div>
+          <div class="score-row"><span>ALFWorld success</span><strong>94.6%</strong></div>
+          <div class="bar"><i style="--value:94.6%"></i></div>
+          <p><b>+21.8 points</b> over GRPO with the same backbone.</p>
+        </article>
+        <article class="result-card featured">
+          <div class="result-model">Qwen2.5 · 7B</div>
+          <div class="score-row"><span>ALFWorld success</span><strong>96.1%</strong></div>
+          <div class="bar"><i style="--value:96.1%"></i></div>
+          <p><b>88.4</b> WebShop score and <b>83.6%</b> success.</p>
+        </article>
+        <article class="result-card">
+          <div class="result-model">Qwen3 · 14B</div>
+          <div class="score-row"><span>ALFWorld success</span><strong>98.7%</strong></div>
+          <div class="bar"><i style="--value:98.7%"></i></div>
+          <p><b>+14.9 points</b> over GRPO with lower variance.</p>
+        </article>
+      </div>
+
+      <figure class="paper-figure reveal">
+        <div class="figure-header">
+          <div><span class="mini-label">Evaluation curves</span><h3>Stable across tasks and scales</h3></div>
+          <p>SAPO closely tracks PPO and converges faster than GRPO.</p>
+        </div>
+        <img src="assets/eval-curves.png" alt="Evaluation curves comparing SAPO, PPO, and GRPO across ALFWorld and WebShop" width="1908" height="417" loading="lazy">
+        <figcaption>Mean evaluation performance with variation across three random seeds.</figcaption>
+      </figure>
+
+      <details class="appendix-figure reveal">
+        <summary>View training curves <span>+</span></summary>
+        <img src="assets/train-curves.png" alt="Training success curves comparing SAPO, PPO, and GRPO" width="3861" height="798" loading="lazy">
+      </details>
+    </section>
+
+    <section class="section" id="efficiency" aria-labelledby="efficiency-heading">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">03 · Efficiency</p>
+          <h2 id="efficiency-heading">The critic disappears. The credit signal stays.</h2>
+        </div>
+        <p>By learning values inside the policy model, SAPO removes separate critic inference, optimizer states, and critic updates—cutting both memory and wall-clock cost.</p>
+      </div>
+
+      <div class="efficiency-grid reveal">
+        <article class="efficiency-stat">
+          <span class="stat-number">15.2–35.6%</span>
+          <h3>less peak GPU memory</h3>
+          <p>Consistent reductions across both environments and 1.5B/7B model scales.</p>
+        </article>
+        <article class="efficiency-stat">
+          <span class="stat-number">22.6–23.6%</span>
+          <h3>less runtime per iteration</h3>
+          <p>Measured on ALFWorld under fully matched training configurations.</p>
+        </article>
+        <article class="efficiency-stat">
+          <span class="stat-number">1 ×</span>
+          <h3>rollout per task</h3>
+          <p>No same-task group sampling is required to compute advantages.</p>
+        </article>
+      </div>
+
+      <figure class="paper-figure reveal">
+        <img src="assets/runtime-memory.png" alt="Runtime and peak GPU memory comparison between SAPO and PPO" width="2390" height="616" loading="lazy">
+        <figcaption>Per-iteration runtime and peak GPU memory on NVIDIA H200 GPUs under matched settings.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section takeaway-section reveal" aria-labelledby="takeaway-heading">
+      <p class="section-kicker">In one sentence</p>
+      <h2 id="takeaway-heading">SAPO keeps the learning behavior people want from PPO, but fits it into the resource profile of a single model and a single rollout.</h2>
+      <div class="takeaway-tags"><span>Explicit temporal credit</span><span>No separate critic</span><span>No rollout groups</span><span>Stable joint learning</span></div>
+    </section>
+
+    <section class="section citation-section" id="citation" aria-labelledby="citation-heading">
+      <div class="section-heading reveal">
+        <div>
+          <p class="section-kicker">04 · Citation</p>
+          <h2 id="citation-heading">Build on SAPO</h2>
+        </div>
+        <p>The implementation, training recipes, and environment integrations are available on GitHub.</p>
+      </div>
+
+      <div class="citation-grid reveal">
+        <div>
+          <h3>BibTeX</h3>
+          <pre><code id="bibtex">@misc{liang2026sapo,
+  title  = {SAPO: Single-Rollout Autoregressive Policy
+            Optimization for Agentic Reinforcement Learning},
+  author = {Liang, Dayang and Feng, Lang and An, Bo
+            and Liu, Yunlong},
+  year   = {2026},
+  eprint = {2608.19842},
+  archivePrefix = {arXiv}
+}</code></pre>
+          <button class="copy-button" type="button" data-copy-citation>Copy BibTeX</button>
+        </div>
+        <aside class="next-card">
+          <p class="mini-label">Get started</p>
+          <h3>Train an agent with SAPO.</h3>
+          <p>Clone the repository for installation steps, ALFWorld and WebShop recipes, and matched PPO/GRPO baselines.</p>
+          <a class="button button-primary" href="https://github.com/dy-liang/SAPO" target="_blank" rel="noopener">Explore the code <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://arxiv.org/abs/2608.19842" target="_blank" rel="noopener">Read the paper <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p><strong>SAPO</strong> · Single-Rollout Autoregressive Policy Optimization</p>
+    <p><a href="https://dy-liang.github.io/">Dayang Liang</a> · 2026</p>
+  </footer>
+
+  <div class="toast" role="status" aria-live="polite">BibTeX copied</div>
+  <script src="script.js"></script>
+</body>
+</html>
