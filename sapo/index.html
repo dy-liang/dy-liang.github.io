@@ -38,7 +38,7 @@
           <p class="eyebrow"><span>Agentic RL</span><span>Single rollout</span><span>Shared policy &amp; value</span></p>
           <h1><span class="accent">SAPO</span>: Single-Rollout Autoregressive Policy Optimization</h1>
           <p class="subtitle">for Agentic Reinforcement Learning</p>
-          <p class="lede">A compute- and memory-efficient PPO-style framework that learns policy, state value, and action value inside a <strong>single causal language model</strong>—without a separate critic or same-task rollout groups.</p>
+          <p class="lede">A compute- and memory-efficient PPO-style framework that learns the policy and the value function inside a <strong>single causal language model</strong>—without a separate critic or same-task rollout groups. Under identical sampling budgets, <strong><code>SAPO</code> matches PPO's performance</strong> and substantially outperforms GRPO, while achieving a <strong>significant reduction in resource consumption</strong>.</p>
 
           <div class="authors" aria-label="Authors">
             <a href="https://dy-liang.github.io/">Dayang Liang<sup>*</sup></a>
@@ -163,10 +163,14 @@
         <figcaption>Mean evaluation performance with variation across three random seeds.</figcaption>
       </figure>
 
-      <details class="appendix-figure reveal">
-        <summary>View training curves <span>+</span></summary>
+      <figure class="paper-figure training-figure reveal">
+        <div class="figure-header">
+          <div><span class="mini-label">Training curves</span><h3>PPO-like optimization behavior</h3></div>
+          <p>SAPO remains stable throughout training and consistently improves over GRPO.</p>
+        </div>
         <img src="assets/train-curves.png" alt="Training success curves comparing SAPO, PPO, and GRPO" width="3861" height="798" loading="lazy">
-      </details>
+        <figcaption>Training success rates across ALFWorld and WebShop with variation over three random seeds.</figcaption>
+      </figure>
     </section>
 
     <section class="section" id="efficiency" aria-labelledby="efficiency-heading">
